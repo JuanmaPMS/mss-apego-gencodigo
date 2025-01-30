@@ -14,6 +14,10 @@ def create_app():
     app.register_blueprint(auth_bp, url_prefix="/gencodigo/auth")
     from GeneraCodigo import genera_bp
     app.register_blueprint(genera_bp, url_prefix="/gencodigo/pregunta")
+    
+    from GeneraPrototipo import generaprototipo_bp
+    app.register_blueprint(generaprototipo_bp, url_prefix="/gencodigoprototipo/pregunta")
+    
     #from Aplicador_Inocular import inoculacion_bp
     #app.register_blueprint(inoculacion_bp, url_prefix="/Aplicador/Inoculacion")
     return app
