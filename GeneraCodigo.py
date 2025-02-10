@@ -9,6 +9,7 @@ from flask import Blueprint, request, jsonify, send_file
 #from flask_jwt_extended import jwt_required
 import json
 from Utils.CallOpenAI import OpenAIConector
+from Utils.ManejoCadenas import Cadenas
 genera_bp = Blueprint('pregunta', __name__)
 
 @genera_bp.route('', methods=['POST'])
@@ -24,9 +25,9 @@ def ObtieneCodigo():
         pregunta_ia = f"{pregunta.capitalize()}, por favor devuelveme solo el código generado en texto plano, no hagas un resumen y tampoco generes comentarios ni etiquetas"
         IniciaOAI = OpenAIConector()
         RespuestaOAI = IniciaOAI.enviarOPENAI(pregunta_ia)
-
+        cadena= Cadenas()
         if RespuestaOAI != '':
-            Response = {'Exito': True, 'Resultado': RespuestaOAI, 'Detalle': ''}
+            Response = {'Exito': True, 'Resultado': cadena.eliminar_lineas( RespuestaOAI), 'Detalle': ''}
         else:
             Response = {'Exito': False, 'Resultado': 'No se obtuvieron resultados.', 'Detalle': ''}
         
