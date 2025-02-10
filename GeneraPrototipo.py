@@ -20,8 +20,13 @@ def ObtieneCodigo():
         pregunta_ia = f"De acuerdo a la siguiente historia de usuario  '{pregunta.capitalize()}'" + ObtieneDinEstatico(EspecifTec) 
         IniciaOAI = OpenAIConector()
         RespuestaOAI = IniciaOAI.enviarOPENAI(pregunta_ia).replace('```html', '').replace('```', '')
-        return Response(RespuestaOAI, mimetype='text/html')
-  
+        #return Response(RespuestaOAI, mimetype='text/html')
+    
+        if RespuestaOAI != '':
+            Response = {'Exito': True, 'Resultado': RespuestaOAI, 'Detalle': ''}
+        else:
+            Response = {'Exito': False, 'Resultado': 'No se obtuvieron resultados.', 'Detalle': ''}
+        return Response
         
         
 def ObtieneDinEstatico(EspecifTec:str)->str:
