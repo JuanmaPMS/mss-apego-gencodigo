@@ -22,12 +22,15 @@ def ObtieneCodigo():
         if pregunta == None:
             raise Exception("Entrada de datos incorrecta.")
         
-        pregunta_ia = f"{pregunta.capitalize()}, por favor devuelveme solo el código generado en texto plano, no hagas un resumen y tampoco generes comentarios ni etiquetas"
+        #pregunta_ia = f"{pregunta.capitalize()}, por favor devuelveme solo el código generado en texto plano, no hagas un resumen y tampoco generes comentarios ni etiquetas"
+        pregunta_ia = f"{pregunta.capitalize()}, el codigo que generes devuelvelo en un objeto json dentro de la propiedad llamada codigo y tambien contendra un propiedad llamada explicacion con la explicacion del codigo que generaste , no hagas un resumen y tampoco generes comentarios ni etiquetas"
+
         IniciaOAI = OpenAIConector()
         RespuestaOAI = IniciaOAI.enviarOPENAI(pregunta_ia)
         cadena= Cadenas()
         if RespuestaOAI != '':
-            Response = {'Exito': True, 'Resultado': cadena.eliminar_lineas( RespuestaOAI), 'Detalle': ''}
+            #Response = {'Exito': True, 'Resultado': cadena.eliminar_lineas( RespuestaOAI), 'Detalle': ''}
+            Response = {'Exito': True, 'Resultado':  RespuestaOAI, 'Detalle': ''}
         else:
             Response = {'Exito': False, 'Resultado': 'No se obtuvieron resultados.', 'Detalle': ''}
         
