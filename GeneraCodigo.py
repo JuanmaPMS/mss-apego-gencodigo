@@ -10,6 +10,7 @@ from flask import Blueprint, request, jsonify, send_file
 import json
 from Utils.CallOpenAI import OpenAIConector
 from Utils.ManejoCadenas import Cadenas
+from db import Acceso
 genera_bp = Blueprint('pregunta', __name__)
 
 @genera_bp.route('', methods=['POST'])
@@ -23,8 +24,8 @@ def ObtieneCodigo():
             raise Exception("Entrada de datos incorrecta.")
         
         #pregunta_ia = f"{pregunta.capitalize()}, por favor devuelveme solo el código generado en texto plano, no hagas un resumen y tampoco generes comentarios ni etiquetas"
-        pregunta_ia = f"{pregunta.capitalize()}, el codigo que generes devuelvelo en un objeto json dentro de la propiedad llamada codigo y tambien contendra un propiedad llamada explicacion con la explicacion del codigo que generaste , no hagas un resumen y tampoco generes comentarios ni etiquetas"
-
+        pregunta_ia = f"{pregunta.capitalize()}, el codigo que generes devuelvelo identado en un objeto json dentro de la propiedad llamada codigo y tambien contendra un propiedad llamada explicacion con la explicacion del codigo que generaste , no hagas un resumen y tampoco generes comentarios ni etiquetas"
+        #pregunta_ia = f"de este texto '{pregunta.capitalize()}' generame un codigo en una sola cadena y lo regresara en un objeto json en un solo nodo que contendra dos propiedades una llamada codigo en el cual su valor sera la respuesta que  generes y la otra propiedad se llamara explicacion que tendra el valor de la explicacion del codigo, no hagas un resumen y tampoco generes comentarios ni etiquetas "
         IniciaOAI = OpenAIConector()
         RespuestaOAI = IniciaOAI.enviarOPENAI(pregunta_ia)
         cadena= Cadenas()
@@ -67,3 +68,44 @@ def DescargaArchivo():
 
     except Exception as e:
         return {"error": str(e)}, 500
+    
+@genera_bp.route('/titulo', methods=['POST'])
+#@jwt_required()
+def ObtieneTitulo():
+    try:
+        #Valida el json de entrada
+        params = request.get_json()
+        descripcion = params.get('descripcion')
+        if descripcion == None:
+            raise Exception("Entrada de datos incorrecta.")
+        
+        condicionesPregunta = {
+        'nombrecorto': ('=', "Titulo")
+        }
+
+     
+        pregunta_data = Acceso("preguntasistema").EjecutaVista(condicionesPregunta)    
+        pregunta = pregunta_data[0]["pregunta"]
+        variables = pregunta_data[0]["variables"]
+        pregunta_formulada = pregunta.replace(variables, descripcion)
+        respuesta_openai = OpenAIConector().enviarOPENAI(pregunta_formulada)
+        cadena = respuesta_openai.replace('json', '').split('```')[1].strip()
+        titulojson = json.loads(cadena)
+        titulo = titulojson["Titulo"]
+             
+        return jsonify({ "Exito" : True,
+                    'Mensaje': 'Operación realizada con exito',
+                    'Respuesta': titulo}), 200
+
+    except (IndexError, json.JSONDecodeError) as e:
+         return jsonify({"Exito" : False,
+                    'Mensaje': "Ocurrio un error" ,
+                    'Respuesta': str(e)}), 500
+    except Exception as e:
+        return jsonify({"Exito" : False,
+                    'Mensaje': "Ocurrio un error" ,
+                    'Respuesta': str(e)}), 500
+        
+
+        
+      
