@@ -25,7 +25,7 @@ def ObtieneCodigo():
         
         #pregunta_ia = f"{pregunta.capitalize()}, por favor devuelveme solo el código generado en texto plano, no hagas un resumen y tampoco generes comentarios ni etiquetas"
         #pregunta_ia = f"{pregunta.capitalize()}, el codigo que generes devuelvelo identado en un objeto json dentro de la propiedad llamada codigo y tambien contendra un propiedad llamada explicacion con la explicacion del codigo que generaste , no hagas un resumen y tampoco generes comentarios ni etiquetas"
-        pregunta_ia = f"de este texto '{pregunta.capitalize()}' generame un codigo en una sola cadena y lo regresara en un objeto json en un solo nodo que contendra dos propiedades una llamada codigo en el cual su valor sera la respuesta que  generes y la otra propiedad se llamara explicacion que tendra el valor de la explicacion del codigo, no hagas un resumen y tampoco generes comentarios ni etiquetas "
+        pregunta_ia = f"de este texto '{pregunta.capitalize()}' generame el código y lo regresaras en un objeto json en un solo nodo que contendra dos propiedades una llamada codigo en el cual su valor sera la respuesta que  generes y la otra propiedad se llamara explicacion que tendra el valor de la explicacion del codigo, no hagas un resumen y tampoco generes comentarios ni etiquetas "
         IniciaOAI = OpenAIConector()
         RespuestaOAI = IniciaOAI.enviarOPENAI(pregunta_ia)
         cadena= Cadenas()
