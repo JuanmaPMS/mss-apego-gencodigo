@@ -18,6 +18,9 @@ def create_app():
     from GeneraPrototipo import generaprototipo_bp
     app.register_blueprint(generaprototipo_bp, url_prefix="/gencodigoprototipo/pregunta")
     
+    from GeneraObjetos import generaObjetos_bp
+    app.register_blueprint(generaObjetos_bp, url_prefix="/genObjetos")
+    
     #from Aplicador_Inocular import inoculacion_bp
     #app.register_blueprint(inoculacion_bp, url_prefix="/Aplicador/Inoculacion")
     return app

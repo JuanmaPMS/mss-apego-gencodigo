@@ -1,5 +1,5 @@
 import psycopg2
-import yaml
+
 import os
 from flask import  jsonify
 from decimal import Decimal
@@ -19,12 +19,13 @@ class  Acceso:
         )
         return conn
     
-    def EjecutaVista(self, condiciones=None):
+    def EjecutaVista(self, condiciones=None, distinct=False, columnas=None):
         conn = Acceso.get_db_connection()
         try:
             cur = conn.cursor()
             where_clause = ""
             values = []
+            
             if condiciones:
                 where_parts = []
                 for columna, (operador, valor) in condiciones.items():
@@ -36,7 +37,15 @@ class  Acceso:
                         where_parts.append(f"{columna} {operador} %s")
                         values.append(valor)
                 where_clause = "WHERE " + " AND ".join(where_parts)
-            query = f'SELECT * FROM {self.Funcion_} {where_clause}'
+            
+            # Seleccionar columnas específicas o todas si no se especifica ninguna
+            columnas_seleccion = ", ".join(columnas) if columnas else "*"
+            
+            # Agregar DISTINCT si es necesario
+            distinct_clause = "DISTINCT " if distinct else ""
+            
+            query = f'SELECT {distinct_clause}{columnas_seleccion} FROM {self.Funcion_} {where_clause}'
+            
             cur.execute(query, values)
             rows = cur.fetchall()
             column_names = [desc[0] for desc in cur.description]
@@ -47,6 +56,7 @@ class  Acceso:
         finally:
             cur.close()
             conn.close()
+        
         return data
     
     def EjecutaFuncion(self):
