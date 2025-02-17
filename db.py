@@ -4,6 +4,7 @@ import os
 from flask import  jsonify
 from decimal import Decimal
 from decouple import config
+import re
  
 
 class  Acceso:
@@ -125,14 +126,14 @@ class  Acceso:
             conn = Acceso.get_db_connection()
             cur = conn.cursor()
             query = cifrador.decrypt(Query).decode()
-            cur.execute(query)
-            columns = [desc[0] for desc in cur.description]  # Obtener nombres de las columnas
-            rows = cur.fetchall()
-            cur.close()
-            
-            # Convertir a lista de diccionarios
-            results = [dict(zip(columns, row)) for row in rows]
-
+            if self.EsPermitido(query):
+                cur.execute(query)
+                columns = [desc[0] for desc in cur.description]  # Obtener nombres de las columnas
+                rows = cur.fetchall()
+                cur.close()
+                results = [dict(zip(columns, row)) for row in rows]
+            else:
+                raise Exception('Query viola las normas de seguridad')
             return results  # Retorna una lista de diccionarios
         except psycopg2.DatabaseError as e:
             print(f"Error en la base de datos: {e}")
@@ -140,3 +141,19 @@ class  Acceso:
         finally:
             if conn is not None:
                 conn.close()
+                
+                
+                
+                
+    def EsPermitido(sql_query):
+            pattern = r'\b(DROP|INSERT|DELETE|UPDATE|TRUNCATE)\b'
+            if re.search(pattern, sql_query, re.IGNORECASE):
+                return True
+            else:
+                return False             
+                
+                
+                
+                
+                
+                
