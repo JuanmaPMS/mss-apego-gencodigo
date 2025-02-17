@@ -51,7 +51,7 @@ def RealizaPregunta():
     datos = request.get_json()
     Tablas = datos.get('tablas')
     Pregunta = datos.get('Pregunta')
-    Response = Exec.enviarOPENAI(Tablas, Pregunta)
+    Response = Exec().enviarOPENAI(Tablas, Pregunta)
     return jsonify({"script": Response.replace('```sql','').replace('```','')}) 
 
 @generaObjetos_bp.route('/ER', methods=['GET'])

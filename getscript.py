@@ -3,10 +3,10 @@ import os
 class Obtener:
     def GetScript( tabla ):
         try:
-            os.environ['PGPASSWORD'] = 'D3s4rr0ll0$2024'
+            os.environ['PGPASSWORD'] = 'admin1234'
             comando = [
                 'pg_dump',
-                '-h', '10.166.0.54',              # Agrega el host aquí
+                '-h', '216.250.124.212',              # Agrega el host aquí
                 '-U', 'postgres',
                 '-d', 'ApegoContractual',
                 '-t', tabla,
