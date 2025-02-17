@@ -1,5 +1,5 @@
 # Usa una imagen base con Python 3.13.1
-FROM python:3.13.1-slim
+FROM python:3.11-slim
 
 # Establece el directorio de trabajo dentro del contenedor
 WORKDIR /app
@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . /app/
 
 # Expone el puerto 5002, que es el puerto donde Flask escuchará
-EXPOSE 5002
+EXPOSE 5012
 
 # Comando para ejecutar la aplicación Flask cuando el contenedor se inicie
 CMD ["python", "app.py"]
