@@ -10,7 +10,7 @@ class Exec:
         messages=[
             {"role": "system", "content": "Eres un asistente experto en analizar tablas y crear scripts SQL."},
             {"role": "user", "content": f"Aquí tienes un set de tablas para analizar: {tablas}"},
-            {"role": "user", "content": f"Las preguntas SOLO deben ser orientadas a la generación de Scripts y objetos SQL."},
+            {"role": "user", "content": f"Las preguntas SOLO deben ser orientadas a la generación de Scripts SELECT, cualquier otro tipo de instruccion que altere datos o estructura de base de datos esta prohibido"},
             {"role": "user", "content": f"Si no tienes los suficientes datos para realizar la operacion indicada, por favor solicita más información."},
             {"role": "user", "content": f"Por favor no agregues introduccion, explicacion o comentarios adicionales."},
             {"role": "user", "content": f"Pregunta: {pregunta}"}
