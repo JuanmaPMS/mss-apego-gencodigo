@@ -39,6 +39,13 @@ def Executequery():
     ScriptResponse = Acceso('').EjecutaRaw(query)
     return jsonify(ScriptResponse) 
 
+@generaObjetos_bp.route('/Persiste', methods=['POST'])
+def ExecutequeryPersiste():
+    datos = request.get_json()
+    query = datos.get('query')
+    ScriptResponse = Acceso('').EjecutaRaw(query)
+    return jsonify(ScriptResponse) 
+
 @generaObjetos_bp.route('/Gen', methods=['POST'])
 def RealizaPregunta():
     datos = request.get_json()
@@ -52,3 +59,7 @@ def GenER():
     image_bytes = ER.creaER() 
     image_stream = BytesIO(image_bytes)
     return send_file(image_stream, mimetype='image/png')
+
+
+
+
