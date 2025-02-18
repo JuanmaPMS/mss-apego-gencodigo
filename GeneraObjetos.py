@@ -36,15 +36,16 @@ def GenTablas(tabla:str):
 def Executequery():
     datos = request.get_json()
     query = datos.get('query')
+    iv_ = datos.get('iv')
     ScriptResponse = Acceso('').EjecutaRaw(query)
     return jsonify(ScriptResponse) 
 
-@generaObjetos_bp.route('/Persiste', methods=['POST'])
+@generaObjetos_bp.route('/ejecutarQuery', methods=['POST'])
 def ExecutequeryPersiste():
     datos = request.get_json()
     query = datos.get('query')
-    ScriptResponse = Acceso('').EjecutaRaw(query)
-    return jsonify(ScriptResponse) 
+    ScriptResponse = Acceso('').EjecutaPersistenciaRaw(query)   
+    return jsonify({'Exito': ScriptResponse.Exito, "Mensaje":ScriptResponse.Mensaje,"Respuesta":""}) 
 
 @generaObjetos_bp.route('/Gen', methods=['POST'])
 def RealizaPregunta():
@@ -59,6 +60,15 @@ def GenER():
     image_bytes = ER.creaER() 
     image_stream = BytesIO(image_bytes)
     return send_file(image_stream, mimetype='image/png')
+
+
+
+@generaObjetos_bp.route('/decrypt', methods=['POST'])
+def decrypt():
+    datos = request.get_json()
+    cadena = datos.get('cadena')
+    Response = Acceso('').decrypt(cadena)
+    return jsonify(Response) 
 
 
 
