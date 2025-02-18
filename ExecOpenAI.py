@@ -10,8 +10,11 @@ class Exec:
         messages=[
             {"role": "system", "content": "Eres un asistente experto en analizar tablas y crear scripts SQL."},
             {"role": "user", "content": f"Aquí tienes un set de tablas para analizar: {tablas}"},
-            {"role": "user", "content": f"Las preguntas SOLO deben ser orientadas a la generación de Scripts SELECT, cualquier otro tipo de instruccion que altere datos o estructura de base de datos esta prohibido"},
+            {"role": "user", "content": f"Las preguntas SOLO deben ser orientadas a la generación de Scripts"},
             {"role": "user", "content": f"Si no tienes los suficientes datos para realizar la operacion indicada, por favor solicita más información."},
+            {"role": "user", "content": f"Solo genera Queries, SELECT no puedes crear vistas, si la pregunta pide una vista devuelve un querie"},
+            {"role": "user", "content": f"No puedes generar ningun objeto de base de datos, unicamente instrucciones SELECT"},
+            {"role": "user", "content": f"Si se solicita un querie diferente a una Instruccion Select, indica que solo puedes generar instrucciones SELECT y que recomiendas usar la opcion  'Materializar Vista'"},
             {"role": "user", "content": f"Por favor no agregues introduccion, explicacion o comentarios adicionales."},
             {"role": "user", "content": f"Pregunta: {pregunta}"}
                 ])
