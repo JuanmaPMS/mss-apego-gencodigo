@@ -70,6 +70,23 @@ def decrypt():
     Response = Acceso('').decrypt(cadena)
     return jsonify(Response) 
 
+@generaObjetos_bp.route('/GenFn', methods=['POST'])
+def RealizaPreguntaFn():
+    datos = request.get_json()
+    Tablas = datos.get('tablas')
+    Pregunta = datos.get('Pregunta')
+    Response = Exec().enviarFnOPENAI(Tablas, Pregunta)
+    Response = Exec().enviarOPENAIRefinaFn(Response)
+    return jsonify({"script": Response.replace('```sql','').replace('```','')})
+
+@generaObjetos_bp.route('/ejecutaFn', methods=['POST'])
+def ExecutequeryFn():
+    datos = request.get_json()
+    query = datos.get('query')
+    iv_ = datos.get('iv')
+    ScriptResponse = Acceso('').EjecutaRawFn(query)
+    return jsonify(ScriptResponse) 
+
 
 
 

@@ -158,6 +158,28 @@ class  Acceso:
         finally:
             if conn is not None:
                 conn.close()
+
+    def EjecutaRawFn(self, Query):
+        conn = None
+        try:
+            conn = Acceso.get_db_connection()
+            cur = conn.cursor()
+            #query = cifrador.decrypt(Query).decode()
+            cur.execute(Query)
+            columns = [desc[0] for desc in cur.description]  # Obtener nombres de las columnas
+            rows = cur.fetchall()
+            cur.close()
+            
+            # Convertir a lista de diccionarios
+            results = [dict(zip(columns, row)) for row in rows]
+
+            return results  # Retorna una lista de diccionarios
+        except psycopg2.DatabaseError as e:
+            result = [{'error': f"Error en la base de datos: {e}"}]
+            return result
+        finally:
+            if conn is not None:
+                conn.close()
                 
                 
                 
