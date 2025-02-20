@@ -1,6 +1,9 @@
 # Usa una imagen base con Python 3.13.1
 FROM python:3.11-slim
 
+# Instalar cliente de PostgreSQL
+RUN apt update && apt install -y postgresql-client
+
 # Establece el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
