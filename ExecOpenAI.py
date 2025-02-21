@@ -23,16 +23,22 @@ class Exec:
     
 
     def enviarOPENAIRefinaQuery(self, pregunta: str) -> str:
-        
+        ejemplo = [
+            {"role": "system", "content": "Eres un asistente experto en analizar tablas y crear scripts SQL."},
+            {"role": "user", "content": "Condensa la siguiente consulta de tal forma que ocupe menos caracteres y sea mas legible, las llaves foraneas existentes incluyelas en la instruccion create table "},
+            {"role": "user", "content": f"Por favor no agregues introduccion, explicacion o comentarios adicionales."},
+            {"role": "user", "content": f"Pregunta: {pregunta}"}
+                ]
         client = OpenAI(api_key=config('API_KEY_OPENAI'))
         response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": "Eres un asistente experto en analizar tablas y crear scripts SQL."},
-            {"role": "system", "content": "Condensa la siguiente consulta de tal forma que ocupe menos caracteres y sea mas legible, las llaves foraneas existentes incluyelas en la instruccion create table "},
+            {"role": "user", "content": "Condensa la siguiente consulta de tal forma que ocupe menos caracteres y sea mas legible, las llaves foraneas existentes incluyelas en la instruccion create table "},
             {"role": "user", "content": f"Por favor no agregues introduccion, explicacion o comentarios adicionales."},
             {"role": "user", "content": f"Pregunta: {pregunta}"}
                 ])
+        print("Pregunta", ejemplo);
         obj =  response.choices[0].message.content
         return obj  
     

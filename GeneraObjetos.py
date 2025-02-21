@@ -29,7 +29,9 @@ def ObtieneTablas(Esquema:str):
 @generaObjetos_bp.route('/Script/<tabla>', methods=['GET'])
 def GenTablas(tabla:str):
     ScriptResponse = Obtener.GetScript(tabla)
+    print("BD",ScriptResponse)
     ScriptResponse = Exec().enviarOPENAIRefinaQuery(ScriptResponse).replace('```sql','').replace('```','')
+    print("Refinamiento", ScriptResponse)
     return jsonify({"ScriptTable":ScriptResponse}) 
 
 @generaObjetos_bp.route('/ejecuta', methods=['POST'])
