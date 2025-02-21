@@ -2,7 +2,10 @@
 FROM python:3.11-slim
 
 # Instalar cliente de PostgreSQL
-RUN apt update && apt install -y postgresql-client
+RUN apt update && apt install -y wget gnupg2
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt bookworm-pgdg main" > /etc/apt/sources.list.d/pgdg.list \
+    && wget -qO - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
+    && apt update && apt install -y postgresql-client-17
 
 # Establece el directorio de trabajo dentro del contenedor
 WORKDIR /app
@@ -20,4 +23,4 @@ COPY . /app/
 EXPOSE 5012
 
 # Comando para ejecutar la aplicación Flask cuando el contenedor se inicie
-CMD ["python", "app.py"]
+CMD ["python",  "-u","app.py"]
