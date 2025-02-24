@@ -7,6 +7,9 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt bookworm-pgdg main" > /etc
     && wget -qO - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
     && apt update && apt install -y postgresql-client-17
 
+# Instalar Graphviz
+RUN apt update && apt install -y graphviz    
+
 # Establece el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
