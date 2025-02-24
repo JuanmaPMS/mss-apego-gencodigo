@@ -19,12 +19,21 @@ class ER:
                 rankdir="TB", 
                 concentrate=True  
             )
-            ruta = "imagenesER/"+str(uuid.uuid4())+".png"
+            
+             # Crear la carpeta si no existe
+            carpeta_imagenes = "imagenesER"
+            os.makedirs(carpeta_imagenes, exist_ok=True)
+            
+            
+              # Generar un nombre de archivo único
+            ruta = os.path.join(carpeta_imagenes, f"{uuid.uuid4()}.png")
             graph.write_png(ruta)
             
             with open(ruta, "rb") as file:
                 byte_array = file.read()
             os.remove(ruta)
             return byte_array
-        except:
+        except Exception as e:
+            print(str(e))
             return None         
+            
