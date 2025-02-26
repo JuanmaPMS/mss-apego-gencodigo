@@ -6,6 +6,7 @@ from flask import Blueprint, request, jsonify,Response
 #from flask_jwt_extended import jwt_required
 import json
 from Utils.CallOpenAI import OpenAIConector
+from Utils.CallOpenAIPrototipo import OpenAIProtipoConector
 
 generaprototipo_bp = Blueprint('prototipo', __name__)
 
@@ -17,8 +18,9 @@ def ObtieneCodigo():
         pregunta = params.get('HU')
         EspecifTec = params.get('EspecifTec')
         
-        pregunta_ia = f"De acuerdo a la siguiente historia de usuario  '{pregunta.capitalize()}'" + ObtieneDinEstatico(EspecifTec) 
-        IniciaOAI = OpenAIConector()
+        #pregunta_ia = f"De acuerdo a la siguiente historia de usuario  '{pregunta.capitalize()}'" + ObtieneDinEstatico(EspecifTec) 
+        pregunta_ia = f"Genera un formulario con base a la siguiente descripción: '{pregunta.capitalize()}'. Tambien incluye las siguientes especificaciones: {EspecifTec}.";
+        IniciaOAI = OpenAIProtipoConector()
         RespuestaOAI = IniciaOAI.enviarOPENAI(pregunta_ia).replace('```html', '').replace('```', '')
         #return Response(RespuestaOAI, mimetype='text/html')
     
@@ -81,10 +83,18 @@ def ObtieneDinEstatico(EspecifTec:str)->str:
                             0% { transform: rotate(0deg); }
                             100% { transform: rotate(360deg); }
                         }
+
                     </style>
                 y por ultimo este script despues del codigo "$gmx(document).ready(function()":
 
                 $(document).ready(function() {
+                    
+                        //Para visualizacion de tabs
+                        var tabs = document.querySelectorAll(".tab-pane");
+                        document.querySelectorAll(".tab-pane").forEach(el => {    
+                            el.classList.remove("show")
+                        });
+     
                             let interval = setInterval(function() {
                                 console.log("Ejecutando...");
                                 if (document.querySelector("footer.main-footer")) {
@@ -96,5 +106,13 @@ def ObtieneDinEstatico(EspecifTec:str)->str:
                         });
                 Por favor NO INCLUYAS introducción ni conclusión, UNICAMENTE el código HTML solicitado.
                 """
-    return cadena + cadena2 + cadena3
+                
+                
+    #cadenafinal = "genera el código HTML que cumpla con esos criterios cuidando la estetica y correcta proporcion entre los elementos del formulario. Por favor NO INCLUYAS introducción ni conclusión, UNICAMENTE el código HTML solicitado." + " Contempla lo siguiente: " + EspecifTec #+ ". Por favor NO INCLUYAS introducción ni conclusión, UNICAMENTE el código HTML solicitado."
+    
+    
+    cadenafinal = "genera un formulario con tres secciones, la primera seccion es de datos personales segunda sección es de patologías pre existentes y la tercera debe tener sección de patologías familiares"
+    
+    #return cadena + cadena2 + cadena3
+    return cadenafinal
    
