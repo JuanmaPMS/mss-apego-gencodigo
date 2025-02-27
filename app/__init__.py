@@ -21,6 +21,9 @@ def create_app():
     from GeneraObjetos import generaObjetos_bp
     app.register_blueprint(generaObjetos_bp, url_prefix="/genObjetos")
     
+    from GeneraModulosCodigo import modulosrepo_bp
+    app.register_blueprint(modulosrepo_bp, url_prefix="/modulosrepositorio")
+    
     #from Aplicador_Inocular import inoculacion_bp
     #app.register_blueprint(inoculacion_bp, url_prefix="/Aplicador/Inoculacion")
     return app
