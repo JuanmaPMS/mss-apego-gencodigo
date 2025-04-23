@@ -7,7 +7,8 @@ class OpenAIProtipoConector:
     def __init__(self):
         self.api_key_ = config('API_KEY_OPENAI')
         self.endpoint_ = config('ENDPOINT_OPENAI')
-        self.model_ = config('MODELO_OPENAI_FINE_TUNNING')
+       # self.model_ = config('MODELO_OPENAI_FINE_TUNNING')
+        self.model_ = config('MODELO_OPENAI')
 
     def enviarOPENAI(self, pregunta: str) -> str:
         api_key = self.api_key_
